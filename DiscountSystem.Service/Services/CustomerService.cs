@@ -93,25 +93,27 @@ namespace DiscountSystem.Service.Services
       CurrentDate = DateTime.UtcNow;
 
       month = (CurrentDate.Year - CustomerCreatedDate.Year) * 12 + CurrentDate.Month - CustomerCreatedDate.Month;
+      if (month == 0)
+        response.Message = "you are not eligible to have any discount on your product ";
 
-      //for (int i = 0; i < discountList.Count; i++)
-      foreach(var discount in discountList)
+
+      foreach (var discount in discountList)
       {
         if (month >= discount.Duration)
         {
           response.Message = $"you are eligible to have {discount.DiscountRate}% on your product ";
-          
         }
         else
         {
           response.Message = "you are not eligible to have any discount on your product ";
         }
       }
+
       return response;
     }
     public async Task<Result<ResponseModel>> AssignDiscountToCustomer(string phoneNumber, int discountId)
     {
-      var response = new ResponseModel();      
+      var response = new ResponseModel();
       try
       {
         var customer = await _unitOfWork.CustomerRepository.FirstOrDefault(x => x.PhoneNumber == phoneNumber);
