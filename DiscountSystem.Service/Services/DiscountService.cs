@@ -52,6 +52,7 @@ namespace DiscountSystem.Service.Services
     {
       var response = new ResponseModel<List<CustomerDiscountDto>>();
       var DiscountList = await _unitOfWork.DiscountRepository.GetAll();
+      response.IsSuccessful = true;
       response.Data = _mapper.Map<List<CustomerDiscountDto>>(DiscountList);
       return response;
     }

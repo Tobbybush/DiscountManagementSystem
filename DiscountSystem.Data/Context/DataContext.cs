@@ -17,20 +17,16 @@ namespace DiscountSystem.Data.Context
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
 
-    }
-    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //{
-    //  optionsBuilder.UseInMemoryDatabase("Seyidb");
-    //}
+    }    
     public virtual DbSet<Customer> Customers { get; set; }
     public virtual DbSet<CustomerDiscount> CustomerDiscounts { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-      modelBuilder.Entity<Customer>()
-        .HasOne(d => d.CustomerDiscount)
-        .WithOne(c => c.Customer)
-        .HasForeignKey<Customer>(fk => fk.DiscountId);
+      modelBuilder.Entity<CustomerDiscount>()
+        .HasMany(x => x.Customer)
+        .WithOne(x => x.CustomerDiscount)
+        .HasForeignKey(fk => fk.CustomerDiscountId);
     }
   }
 }

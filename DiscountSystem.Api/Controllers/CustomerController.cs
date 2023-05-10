@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using System;
+using CSharpFunctionalExtensions;
 using DiscountSystem.Data.Dto;
 using DiscountSystem.Data.Model;
 using DiscountSystem.Service.IServices;
@@ -61,11 +62,41 @@ namespace DiscountSystem.Api.Controllers
     /// </summary>
     /// <param name="PhoneNumber"></param>
     /// <returns></returns>
-    [HttpGet("CheckCustomerEligibleForDiscount")]
+    [HttpGet("CheckCustomerEligibleForDiscount/{PhoneNumber}")]
     [ProducesDefaultResponseType(typeof(CustomerDto))]
-    public async Task<IActionResult> CheckeCustomerByNumber (string PhoneNumber)
+    public async Task<IActionResult> CustomerByNumber (string PhoneNumber)
     {
-      var response = await _customerService.GetDiscountByPhoneAsync(PhoneNumber);
+      var response1 = await _customerService.GetCustomerByPhoneAsync(PhoneNumber);
+      Result res = Result.Combine(response1);
+      if (res.IsFailure)
+      {
+        if (response1.Equals(null))
+          _logger.LogError(res.Error);
+        return BadRequest(res.Error);
+      }
+
+      DateTime createdTime = response1.Value.Data.CreatedDate;
+      var response2 = await _customerService.CheckDiscountAsync(createdTime, null);
+      Result res2 = Result.Combine(response1);
+      if (res2.IsFailure)
+      {
+        if (response2.Equals(null))
+          _logger.LogError(res2.Error);
+        return BadRequest(res2.Error);
+      }
+      return Ok(response2.Value);
+    }
+    /// <summary>
+    /// Assign Discount to customer
+    /// </summary>
+    /// <param name="phoneNumber"></param>
+    /// <param name="discountId"></param>
+    /// <returns></returns>
+    [HttpPut("AssignDiscount")]
+    [ProducesDefaultResponseType(typeof(CustomerDto))]
+    public async Task<IActionResult> AssignDiscount(string phoneNumber, int discountId)
+    {      
+      var response = await _customerService.AssignDiscountToCustomer(phoneNumber, discountId);
       Result res = Result.Combine(response);
       if (res.IsFailure)
       {

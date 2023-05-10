@@ -8,18 +8,19 @@ using DiscountSystem.Data.Model;
 
 namespace DiscountSystem.Data.Dto
 {
-  public class CustomerDto
+  public class GetCustomerDetailDto
   {
     public string Name { get; set; }
     public string PhoneNumber { get; set; }
     public string Address { get; set; }
-    public int? CustomerDiscountId { get; set; }
+    public int DiscountId { get; set; }
+    public DateTime CreatedDate { get; set; }
   }
-  public class CustomerDtoRequestMappingConfig : Profile
+  public class GetCustomerDetailDtoRequestMappingConfig : Profile
   {
-    public CustomerDtoRequestMappingConfig()
+    public GetCustomerDetailDtoRequestMappingConfig()
     {
-      CreateMap<Customer, CustomerDto>().ReverseMap();
+      CreateMap<Customer, GetCustomerDetailDto>().ReverseMap();
     }
   }
 }

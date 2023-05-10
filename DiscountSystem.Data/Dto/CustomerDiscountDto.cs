@@ -12,8 +12,8 @@ namespace DiscountSystem.Data.Dto
   {    
     public string Name { get; set; }
     public decimal DiscountRate { get; set; }
-    public int Duration { get; set; }
-    
+    public int Duration { get; set; }    
+
   }
   public class CustomerDiscountDtoRequestMappingConfig : Profile
   {

@@ -9,6 +9,7 @@ namespace DiscountSystem.Api.Configuration
     {
       services.AddAutoMapper(typeof(CustomerDtoRequestMappingConfig));
       services.AddAutoMapper(typeof(CustomerDiscountDtoRequestMappingConfig));
+      services.AddAutoMapper(typeof(GetCustomerDetailDtoRequestMappingConfig));
     }
   }
 }

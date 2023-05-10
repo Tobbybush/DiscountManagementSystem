@@ -15,6 +15,8 @@ namespace DiscountSystem.Service.IServices
   {
     Task<Result<ResponseModel<CustomerDto>>> AddCustomerAsync(CustomerDto request);
     Task<Result<ResponseModel<IEnumerable<CustomerDto>>>> GetAllCustomerAsync();
-    Task<Result<ResponseModel>> GetDiscountByPhoneAsync(string phoneNumber);
+    Task<Result<ResponseModel<GetCustomerDetailDto>>> GetCustomerByPhoneAsync(string phoneNumber);
+    Task<Result<ResponseModel>> CheckDiscountAsync(DateTime from, DateTime? to);
+    Task<Result<ResponseModel>> AssignDiscountToCustomer(string phoneNumber, int discountId);
   }
 }
